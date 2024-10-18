@@ -2,10 +2,9 @@ package card
 
 import (
 	"context"
+	domaincard "lesson-1/internal/domain/card"
+	domainitem "lesson-1/internal/domain/item"
 	"net/http"
-
-	domaincard "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/domain/card"
-	domainitem "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/domain/item"
 )
 
 type Service interface {
@@ -34,6 +33,6 @@ func NewCardServerImplementation(cardService Service, itemService ItemService) *
 func RegisterRoutes(mux *http.ServeMux, i *Implementation) {
 	mux.HandleFunc("GET /cards/{user_id}", i.GetByUserID)
 	mux.HandleFunc("POST /cards/{user_id}", i.Create)
-	mux.HandleFunc("POST /cards/{user_id}/items", i.AddItem)
+	mux.HandleFunc("POST /cards/{user_id}/items/{item_id}", i.AddItem)
 	mux.HandleFunc("DELETE /cards/{user_id}/items/{item_id}", i.RemoveItem)
 }

@@ -1,6 +1,6 @@
 package item
 
-import domainitem "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/domain/item"
+import domainitem "lesson-1/internal/domain/item"
 
 type GetItemByIDResponse struct {
 	domainitem.Item

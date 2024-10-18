@@ -3,10 +3,9 @@ package item
 import (
 	"encoding/json"
 	stderr "errors"
+	"lesson-1/internal/api"
+	"lesson-1/internal/errors"
 	"net/http"
-
-	"github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/api"
-	"github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/errors"
 )
 
 func (i *Implementation) GetItemByID(w http.ResponseWriter, r *http.Request) {

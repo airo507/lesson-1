@@ -2,9 +2,8 @@ package item
 
 import (
 	"context"
+	domainitem "lesson-1/internal/domain/item"
 	"net/http"
-
-	domainitem "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/domain/item"
 )
 
 type Service interface {

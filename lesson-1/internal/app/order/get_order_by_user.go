@@ -1,4 +1,4 @@
-package card
+package order
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func (i *Implementation) GetByUserID(w http.ResponseWriter, r *http.Request) {
+func (i *Implementation) GetOrdersByUser(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	userID, ok := api.PathValueOrError(w, r, "user_id")
@@ -16,12 +16,12 @@ func (i *Implementation) GetByUserID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	card, err := i.cardService.GetByUserID(r.Context(), userID)
+	ordersMap, err := i.orderService.GetOrdersByUserId(r.Context(), userID)
 	if stderr.Is(err, errors.NotFound) {
 		w.WriteHeader(http.StatusNotFound)
 		_ = json.NewEncoder(w).Encode(api.DefaultResponse{
 			Code:    api.NotFound,
-			Message: "card not found",
+			Message: "orders not found",
 		})
 		return
 	}
@@ -30,13 +30,13 @@ func (i *Implementation) GetByUserID(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		_ = json.NewEncoder(w).Encode(api.DefaultResponse{
 			Code:    api.InternalError,
-			Message: "failed to get card by user id",
+			Message: "failed to get orders by user id",
 		})
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	_ = json.NewEncoder(w).Encode(DefaultResponse{
-		Card: card,
+	_ = json.NewEncoder(w).Encode(OrdersMapResponse{
+		Orders: ordersMap,
 	})
 }

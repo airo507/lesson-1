@@ -2,9 +2,8 @@ package card
 
 import (
 	"encoding/json"
+	"lesson-1/internal/api"
 	"net/http"
-
-	"github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/api"
 )
 
 func (i *Implementation) Create(w http.ResponseWriter, r *http.Request) {

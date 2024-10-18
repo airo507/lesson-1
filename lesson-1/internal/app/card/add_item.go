@@ -3,10 +3,9 @@ package card
 import (
 	"encoding/json"
 	stderr "errors"
+	"lesson-1/internal/api"
+	"lesson-1/internal/errors"
 	"net/http"
-
-	"github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/api"
-	"github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/errors"
 )
 
 func (i *Implementation) AddItem(w http.ResponseWriter, r *http.Request) {
@@ -17,16 +16,23 @@ func (i *Implementation) AddItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	req := AddItemRequest{}
-	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		_ = json.NewEncoder(w).Encode(api.DefaultResponse{
-			Code:    api.InvalidRequest,
-			Message: "failed to decode request",
-		})
+	itemId, ok := api.PathValueOrError(w, r, "item_id")
+	if !ok {
 		return
 	}
+	req := AddItemRequest{
+		ItemID: itemId,
+	}
+	//err := json.NewDecoder(r.Body).Decode(&req)
+	//if err != nil {
+	//	w.WriteHeader(http.StatusBadRequest)
+	//	_ = json.NewEncoder(w).Encode(api.DefaultResponse{
+	//		Code:    api.InvalidRequest,
+	//		Message: "failed to decode request",
+	//		Request: err.Error(),
+	//	})
+	//	return
+	//}
 
 	item, err := i.itemService.GetItemByID(r.Context(), req.ItemID)
 	if stderr.Is(err, errors.NotFound) {

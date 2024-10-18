@@ -3,9 +3,8 @@ package repositories
 import (
 	"context"
 	"fmt"
-
-	domaincard "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/domain/card"
-	"github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/errors"
+	domaincard "lesson-1/internal/domain/card"
+	"lesson-1/internal/errors"
 )
 
 type CardRepository struct {

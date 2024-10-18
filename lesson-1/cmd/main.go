@@ -3,17 +3,19 @@ package main
 import (
 	"context"
 	"errors"
+	apporder "lesson-1/internal/app/order"
+	"lesson-1/internal/domain/order"
 	"log"
 	"net/http"
 	"os/signal"
 	"syscall"
 
-	"github.com/meetmorrowsolonmars/go-lessons/lesson-1/fixture"
-	appcard "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/app/card"
-	appitem "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/app/item"
-	domaincard "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/domain/card"
-	domainitem "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/domain/item"
-	repositories "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/repository"
+	"lesson-1/fixture"
+	appcard "lesson-1/internal/app/card"
+	appitem "lesson-1/internal/app/item"
+	domaincard "lesson-1/internal/domain/card"
+	domainitem "lesson-1/internal/domain/item"
+	repositories "lesson-1/internal/repository"
 )
 
 func main() {
@@ -25,15 +27,20 @@ func main() {
 	cardRepository := repositories.NewCardRepository()
 	cardService := domaincard.NewCardService(cardRepository)
 
+	orderRepository := repositories.NewOrderRepository()
+	orderService := order.NewOrderService(orderRepository)
+
 	// Application
 	itemServer := appitem.NewItemServerImplementation(itemService)
 	cardServer := appcard.NewCardServerImplementation(cardService, itemService)
+	orderServer := apporder.NewOrderImplementation(orderService, cardService)
 
 	// Mux
 	mux := http.NewServeMux()
 
 	appitem.RegisterRoutes(mux, itemServer)
 	appcard.RegisterRoutes(mux, cardServer)
+	apporder.RegisterRoutes(mux, orderServer)
 
 	// Server
 	server := http.Server{

@@ -2,9 +2,8 @@ package item
 
 import (
 	"encoding/json"
+	"lesson-1/internal/api"
 	"net/http"
-
-	"github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/api"
 )
 
 func (i *Implementation) GetItems(w http.ResponseWriter, r *http.Request) {

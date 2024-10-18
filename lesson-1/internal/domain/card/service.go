@@ -2,11 +2,9 @@ package card
 
 import (
 	"context"
-	"slices"
-
 	"github.com/shopspring/decimal"
-
-	domainitem "github.com/meetmorrowsolonmars/go-lessons/lesson-1/internal/domain/item"
+	domainitem "lesson-1/internal/domain/item"
+	"slices"
 )
 
 type Repository interface {
